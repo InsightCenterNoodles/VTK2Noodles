@@ -15,8 +15,6 @@ TODO
 TODO
 
 ## Built With
-
-* [Python]
 * [VTK](https://github.com/Kitware/VTK)
 
 ## Authors

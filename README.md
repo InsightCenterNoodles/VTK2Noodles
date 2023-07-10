@@ -2,7 +2,7 @@
 This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) visualization pipeline into NOODLES. This filter set should be implemented in the creation of a Rigatoni Server as part of a custom method. Further work to develop these filters is ongoing.
 
 ## Examples
-# Example 1, Source Strainer
+### Example 1, Source Strainer
 In this example, we use "VtkNoodlesSourceStrainer.py" to access the data primitives of a cylinder vtk source object.
 The output of SourceStrainer(source) is a list that contains four arrays, 0: Points 1. Polygon indices 2. Normals (if they exist) 3. Texture coordinates (if they exist). These data primtives are then used in patch creation. 
 This example method **create_cylinder(server: rigatoni.Server, context, *args):** requires Rigatoni, Penne and NOODLEs explorer to be viewed properly.
@@ -78,11 +78,11 @@ def create_cylinder(server: rigatoni.Server, context, *args):
 
     return 1
 ```
-# Output
-![Cylinder] (/VTK2Noodles/Image 7-10-23 at 1.02 PM.jpg "Cylinder")
+### Output
+![Cylinder] (/Image 7-10-23 at 1.02 PM.jpg "Cylinder")
 
 
-# Example 2, VTP file Strainer
+### Example 2, VTP file Strainer
 In this example, medical data of two patients (one dataset of a thoracic aorta, and another of the abdominal aorta including some parts of the iliacs) was combined, visualized and stored as a .vtp file, found here: https://simtk.org/frs/?group_id=31. VTPnoodStrainer returns the points and polygons of this data. Further work to access color and process larger vtp files is ongoing.
 
 ```python
@@ -150,9 +150,9 @@ def create_aorta(server: rigatoni.Server, context, *args):
 
     return 1
 ```
-# Output
+### Output
 
-![Aorta] (/VTK2Noodles/Image 7-10-23 at 12.51 PM.jpg "Aorta")
+![Aorta] (/Image 7-10-23 at 12.51 PM.jpg "Aorta")
 
 ## Built With
 * [VTK](https://github.com/Kitware/VTK)

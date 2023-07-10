@@ -79,7 +79,7 @@ def create_cylinder(server: rigatoni.Server, context, *args):
     return 1
 ```
 ### Output
-![Cylinder] (/Image 7-10-23 at 1.02 PM.jpg "Cylinder")
+![Cylinder](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/081589ed-7cc6-4718-a385-4e9f798cd642)
 
 
 ### Example 2, VTP file Strainer
@@ -152,7 +152,8 @@ def create_aorta(server: rigatoni.Server, context, *args):
 ```
 ### Output
 
-![Aorta] (/Image 7-10-23 at 12.51 PM.jpg "Aorta")
+![Aorta](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/ff7c76a2-ff79-40b3-b63a-9bda3145bf70)
+
 
 ## Built With
 * [VTK](https://github.com/Kitware/VTK)

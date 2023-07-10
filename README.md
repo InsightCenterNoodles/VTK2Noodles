@@ -79,7 +79,7 @@ def create_cylinder(server: rigatoni.Server, context, *args):
     return 1
 ```
 ### Output
-![Cylinder](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/081589ed-7cc6-4718-a385-4e9f798cd642)
+![Image 7-10-23 at 1 02 PM](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/a3fc4612-42a3-401d-b088-8883b5304486)
 
 
 ### Example 2, VTP file Strainer

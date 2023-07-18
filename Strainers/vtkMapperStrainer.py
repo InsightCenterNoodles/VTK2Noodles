@@ -170,7 +170,7 @@ def AccessPointData(completePolydata):
             normal = normalsArray.GetTuple(i)
             normals.append(normal)
     
-    if pointData.GetScalars:
+    if pointData.GetScalars():
         scalarsArray = pointData.GetScalars
         numScalars = scalarsArray.GetNumberOfTuples()
         for i in range(numScalars):

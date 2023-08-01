@@ -1,6 +1,8 @@
 import vtk
 from VTKnamedColorsNOODLES import VTKColors
 from vtk import vtkTriangleFilter, vtkPolyDataMapper, vtkPolyDataNormals, vtkStaticCleanPolyData
+import numpy as np
+import matplotlib.pyplot as plt
 class Properties:
     """
     Class representing properties of an object.
@@ -44,11 +46,6 @@ def mapperStrainer(mapper):
     polyData = mapper.GetInput()
     if polyData == None:
         errormessage("No polydata provided, try updating mapper before passing through the filter")
-    #check if polygons exist in the provided data
-    connect = polyData.GetPolys().GetConnectivityArray().GetNumberOfTuples()
-    if connect == 0:
-        ###Throw visual error code.
-        errormessage("Provided .polydata has no polygons") 
     #Run data through filtering process
     completeData = cleanData(triangulate(makeNormals(polyData)))
     #Access vertices
@@ -58,11 +55,14 @@ def mapperStrainer(mapper):
     normals = pointDataholder[0]
     scalars = pointDataholder[1]
     polygons = getPolygons(completeData)
+    ### Input values corresponding to vertices or chosen color map as third and fourth arguments
+    colors = generate_colors_for_polygons(vertices,polygons)
     data = Properties()
     data.points = vertices
     data.polygons = polygons
     data.normals = normals
     data.scalars = scalars
+    data.colors = colors
     return data
 
 def makeNormals(polydata):
@@ -223,3 +223,37 @@ def errormessage(string):
     In the future this will be a text source to display in noodles explorer
     """
     print(string)
+
+def generate_colors_for_polygons(vertices, polygons, values=None, cmap='inferno'):
+    """
+    Generate Colors 
+
+    :param vertices: a lis of polygon points
+    :param polygons: A list of polygons, where each polygon is a list of indices representing the vertices.
+    :param values: Values corresponding to each point, will be normalized in 0-1 range and used for coloring. Lack of values results in random coloring.
+    _param cmap: matplot color map, default to inferno but can be overridden. 
+    :return: A list of colors correspionding to .
+    """
+    if values is None:
+        values = np.random.rand(len(vertices))
+    else:
+        # Normalize values to the range [0, 1]
+        values = np.array(values)
+        values = (values - values.min()) / (values.max() - values.min())
+    # Create a color map
+    colormap = plt.get_cmap(cmap)
+
+    colors = []
+    for val in values:
+        # Get the color for the current value from the colormap
+        #subscripting 0 because random gen creates 3x as many values as needed
+        rgba_color = colormap(val[0])
+
+        red = float(rgba_color[0])
+        green = float(rgba_color[1])
+        blue = float(rgba_color[2])
+
+        
+        colors.append([red, green, blue])
+
+    return colors

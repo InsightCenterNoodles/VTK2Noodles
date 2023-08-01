@@ -56,6 +56,7 @@ def VTPnoodStrainer(filename):
     reader.SetFileName(filename)
     reader.Update()
     s_array = dsa.WrapDataObject(reader.GetOutput())
+    print(s_array)
 ###Wrap the vtk data object so its data is accesible
     polygons = s_array.GetPolygons()
     point_array = []
@@ -104,8 +105,6 @@ def VTPnoodStrainer(filename):
     data.points = point_array
     data.polygons = triangulated
     data.normals = normal_array
-    colors = generate_colors_for_polygons(point_array, triangulated)
-    data.colors = colors
     
     """if pointdatalength == 0:
         data.points = ["No point data given"]

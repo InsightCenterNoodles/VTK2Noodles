@@ -11,6 +11,7 @@ Consume_faces in this file is based upon the documentation and code found here: 
 """
 import numpy as np
 from vtkmodules.vtkIOXML import vtkXMLPolyDataReader
+from vtk import vtkOBJReader, vtkGLTFReader, vtkPLYReader
 from VTKnamedColorsNOODLES import VTKColors
 from vtkmodules.numpy_interface import dataset_adapter as dsa
 from vtkmodules.numpy_interface import algorithms as akgs
@@ -39,9 +40,10 @@ class Properties:
         self.scalars = []
         self.colors = []
 
-def VTPnoodStrainer(filename):
+def noodStrainer(filename):
     """
-    Reads a VTK XML PolyData file and extracts relevant data into a custom format.
+    Reads a obj, vtp, ply, or gltf file and extracts relevant data into a custom format.
+    If a different file type is needed, add the import to this strainer. 
 
     Args:
         filename (str): The path to the VTK XML PolyData file.
@@ -50,13 +52,18 @@ def VTPnoodStrainer(filename):
         data (Properties): An instance of the Properties class containing extracted data.
 
     Example usage:
-        data = VTPnoodStrainer('input.vtp')
+        data = noodStrainer(/Users/jbachman/Downloads/workspace/aug4realdemo_magvort0.ply'input.vtp')
     """
-    reader = vtkXMLPolyDataReader()
+    reader = #PUT YOUR READER HERE
+    #Example: reader = vtkXMLPolyDataReader()
     reader.SetFileName(filename)
     reader.Update()
     s_array = dsa.WrapDataObject(reader.GetOutput())
-    print(s_array)
+    #### Test area for color
+    point_data = s_array.PointData
+    point_data_array_names = point_data.keys()
+
+    ##### End test area
 ###Wrap the vtk data object so its data is accesible
     polygons = s_array.GetPolygons()
     point_array = []
@@ -105,16 +112,23 @@ def VTPnoodStrainer(filename):
     data.points = point_array
     data.polygons = triangulated
     data.normals = normal_array
-    
-    """if pointdatalength == 0:
-        data.points = ["No point data given"]
-    elif pointdatalength == 1:
-        data.normals = normal_array
-    elif pointdatalength == 2:
-        data.normals = normal_array
-        data.scalars = TCoords_array"""
+    colors = s_array.PointData['RGB']
+    data.colors = convert_to_0_1_scale(colors)
     return data
-#points_array = np.array([points.GetPoint(i) for i in range(points.GetNumberOfPoints())])
+
+
+def convert_to_0_1_scale(color_data):
+    """
+    Converts 0-255 rgb values to 0-1 scale. 
+    :param color_data: list of lists, containg color dat 0-255
+    :returns correct list of lists. 
+    """
+    converted_data = []
+    for color in color_data:
+        converted_color = [channel / 255.0 for channel in color]
+        converted_data.append(converted_color)
+    return converted_data  
+
 def consume_faces(points, polygons):
     """
     Large part taken from pywavefront github

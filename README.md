@@ -156,7 +156,7 @@ def create_aorta(server: rigatoni.Server, context, *args):
 
 
 #### Second Example:
-This is another example of reader strainer implemented with real data. The server method creation is exactly the same as the aorta. The polygon is combustion data of an internal combustion  cylinder from the Exascale Computinbg Project. The plot is from an unreleated data set, but demonstrates the capability to provide a quantitative and qualitative perspective.
+This is another example of reader strainer implemented with real data. The server method creation is exactly the same as the aorta. The polygon is combustion data of an internal combustion cylinder from the Exascale Computing Project. The plot is from an unreleated data set, but demonstrates the capability to provide a quantitative and qualitative perspective.
 
 ![Combustion Data](https://github.com/InsightCenterNoodles/VTK2Noodles/blob/608bc3af96f5efdea9245ba76b3c3720a43458a7/Screen%20Shot%202023-08-05%20at%203.02.22%20PM.png)
 

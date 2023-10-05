@@ -52,10 +52,18 @@ def noodStrainer(filename):
         data (Properties): An instance of the Properties class containing extracted data.
 
     Example usage:
+    #reader = vtkXMLPolyDataReader()
         data = noodStrainer(/Users/jbachman/Downloads/workspace/aug4realdemo_magvort0.ply'input.vtp')
     """
-    reader = #PUT YOUR READER HERE
-    #Example: reader = vtkXMLPolyDataReader()
+    file_extension = filename[-3:]
+    if file_extension == "ply":
+        reader = vtkPLYReader()
+    elif file_extension == "obj":
+        reader = vtkOBJReader()
+    elif file_extension == "vtp":
+        reader = vtkXMLPolyDataReader()
+    else:
+        print("file type not standard, if vtk reader exists for file type, input manually")
     reader.SetFileName(filename)
     reader.Update()
     s_array = dsa.WrapDataObject(reader.GetOutput())
@@ -63,13 +71,20 @@ def noodStrainer(filename):
     point_data = s_array.PointData
     point_data_array_names = point_data.keys()
 
-    ##### End test area
+    names_to_check = ["RGB", "RGBA", "SCALARS", "Scalars", "Scalars_"]  # Names to check
+
+    result_dict = [0]  # Dictionary to store the names that are present in the set
+    for name in names_to_check:
+        if name in point_data_array_names:
+            result_dict[0] = name
+
+
 ###Wrap the vtk data object so its data is accesible
     polygons = s_array.GetPolygons()
     point_array = []
     normals = s_array.GetPointData().GetNormals()
     num_points = len(s_array.Points)
-    
+    print("LINE 83")
     indy = 0
     ### Turn Point data into pretty format
     while (indy < num_points):
@@ -90,7 +105,10 @@ def noodStrainer(filename):
     triangulated = consume_faces(point_array,point_indices)
     normal_array = []
     TCoords_array = []
-    num_normals = s_array.GetPointData().GetNormals().GetNumberOfTuples()
+    try:
+        num_normals = s_array.GetPointData().GetNormals().GetNumberOfTuples()
+    except Exception as e:
+        print("No normals available, generate with Rigatoni")
     index1 = 0
     ### package normals
     if s_array.GetPointData().GetNormals():
@@ -100,20 +118,30 @@ def noodStrainer(filename):
             index1 += 1
     ### Turn normals into pretty format
     ### Turn T Coords into pretty format
-    if 'TCoords' in s_array.PointData:
-        TCoords_array = []
-        num_cords = len(s_array.PointData['TCoords'])
-        index = 0
+    ### As of 9/3 this is causing weird errors and I havent encontered T coords ever so just gonna let it be. 
+    try:
+        if 'TCoords' in s_array.PointData:
+            TCoords_array = []
+            num_cords = len(s_array.PointData['TCoords'])
+            index = 0
         while (index < num_cords):
             point = s_array.PointData['TCoords'].GetTuple(index)
             TCoords_array.append(point)
             index += 1
+    except:
+        print("No Texture Coordinates Available")
     data = Properties()
-    data.points = point_array
+    data.points = Scale_by(point_array,0.5)
     data.polygons = triangulated
     data.normals = normal_array
-    colors = s_array.PointData['RGB']
-    data.colors = convert_to_0_1_scale(colors)
+    height_values = []
+    for val in data.points:
+        height_values.append(val[1])
+    try:
+        colors = s_array.PointData[result_dict[0]]
+        data.colors = convert_to_0_1_scale(colors)
+    except Exception as e:
+        data.colors = generate_colors_for_polygons(data.points,data.polygons,height_values)
     return data
 
 
@@ -125,8 +153,13 @@ def convert_to_0_1_scale(color_data):
     """
     converted_data = []
     for color in color_data:
-        converted_color = [channel / 255.0 for channel in color]
-        converted_data.append(converted_color)
+        if len(color) == 3:
+            converted_color = [channel / 255.0 for channel in color]
+            converted_color.append(1.0)
+            converted_data.append(converted_color)
+        if len(color) == 4:
+            converted_color = [channel / 255.0 for channel in color]
+            converted_data.append(converted_color)
     return converted_data  
 
 def consume_faces(points, polygons):
@@ -164,7 +197,7 @@ def consume_faces(points, polygons):
     return collected_faces
 
 
-def generate_colors_for_polygons(vertices, polygons, values=None, cmap='inferno'):
+def generate_colors_for_polygons(vertices, polygons, values, cmap='cool'):
     """
     Generate Colors 
 
@@ -174,8 +207,9 @@ def generate_colors_for_polygons(vertices, polygons, values=None, cmap='inferno'
     _param cmap: matplot color map, default to inferno but can be overridden. 
     :return: A list of colors correspionding to .
     """
-    if values is None:
+    if values == None:
         values = np.random.rand(len(vertices))
+        print(len(values))
     else:
         # Normalize values to the range [0, 1]
         values = np.array(values)
@@ -185,15 +219,25 @@ def generate_colors_for_polygons(vertices, polygons, values=None, cmap='inferno'
 
     colors = []
     for val in values:
-        # Get the color for the current value from the colormap
-        #subscripting 0 because random gen creates 3x as many values as needed
-        rgba_color = colormap(val[0])
+        # 9/22 subscripting is not needed for total random gen. Confused why I needed it before. 
+        rgba_color = colormap(val)
 
-        red = float(rgba_color[0])
-        green = float(rgba_color[1])
-        blue = float(rgba_color[2])
+        red = round(rgba_color[0],3)
+        green = round(rgba_color[1],3)
+        blue = round(rgba_color[2],3)
 
-        
-        colors.append([red, green, blue])
+        colors.append([red, green, blue,1.0])
 
     return colors
+
+def Scale_by(oldpoints,scalefactor):
+    points = []
+    for point in oldpoints:
+        new_point = []
+        i = 0
+        while i < 3:
+            new_one_dim = point[i] * scalefactor
+            new_point.append(new_one_dim)
+            i+=1
+        points.append(new_point)
+    return points

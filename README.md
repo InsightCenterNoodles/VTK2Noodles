@@ -5,7 +5,7 @@ This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) v
 ### Example 1, Paraview2Noodles
 In this example, AMR data is processed in Paraview, written as .ply files for each frame and processed into Noodles.
 The rigatoni server file and paraview python script is in the Paraview2Noodles folder and utilizes the Threading strainer to port the data into Noodles.
-https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81af-4a45-9078-10cfceb47045
+![Video 2-4-24 at 1 02 PM](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81af-4a45-9078-10cfceb47045)
 ### Example 2, Source Strainer
 In this example, we use "VtkNoodlesSourceStrainer.py" to access the data primitives of a cylinder vtk source object.
 The output of SourceStrainer(source) is a list that contains four arrays, 0: Points 1. Polygon indices 2. Normals (if they exist) 3. Texture coordinates (if they exist). These data primtives are then used in patch creation. 

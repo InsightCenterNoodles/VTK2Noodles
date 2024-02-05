@@ -2,7 +2,11 @@
 This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) visualization pipeline into NOODLES. This filter set should be implemented in the creation of a Rigatoni Server as part of a custom method. Further work to develop these filters is ongoing.
 
 ## Examples
-### Example 1, Source Strainer
+### Example 1, Paraview2Noodles
+In this example, AMR data is processed in Paraview, written as .ply files for each frame and processed into Noodles.
+The rigatoni server file and paraview python script is in the Paraview2Noodles folder and utilizes the Threading strainer to port the data into Noodles.
+https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81af-4a45-9078-10cfceb47045
+### Example 2, Source Strainer
 In this example, we use "VtkNoodlesSourceStrainer.py" to access the data primitives of a cylinder vtk source object.
 The output of SourceStrainer(source) is a list that contains four arrays, 0: Points 1. Polygon indices 2. Normals (if they exist) 3. Texture coordinates (if they exist). These data primtives are then used in patch creation. 
 This example method **create_cylinder(server: rigatoni.Server, context, *args):** requires Rigatoni, Penne and NOODLEs explorer to be viewed properly.
@@ -26,6 +30,10 @@ def create_cylinder(server: rigatoni.Server, context, *args):
 
     # Create Patch
     patches = []
+
+https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81af-4a45-9078-10cfceb47045
+
+
     patch_info = geo.GeometryPatchInput(
         vertices= data[0],
         indices= data[1],

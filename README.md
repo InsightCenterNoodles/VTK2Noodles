@@ -4,7 +4,8 @@ This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) a
 ## Examples
 ### Example 1, Paraview2Noodles
 In this example, AMR data is processed in Paraview, written as .ply files for each frame and processed into Noodles.
-The rigatoni server file and paraview python script is in the Paraview2Noodles folder and utilizes the Threading strainer to port the data into Noodles. Frame rate is faster than displayed here. Complex animations result in slower FPS, but at about the same rate as Paraview.
+The rigatoni server file and paraview python script is in the Paraview2Noodles folder and utilizes the Threading strainer to port the data into Noodles. Complex animations result in slower FPS, but at about the same rate as Paraview.
+#### Frame rate is faster than displayed here
 ![Video 2-4-24 at 1 02 PM](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/b3f2120a-6528-4e75-9b8e-28e1c55fa2d1)
 
 ### Example 2, Source Strainer

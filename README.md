@@ -1,11 +1,12 @@
 # VTK2Noodles
-This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) visualization pipeline into NOODLES. This filter set should be implemented in the creation of a Rigatoni Server as part of a custom method. Further work to develop these filters is ongoing.
+This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) and Paraview visualization pipelines into NOODLES. This filter set should be implemented in the creation of a Rigatoni Server as part of a custom method. Further work to develop these filters is ongoing.
 
 ## Examples
 ### Example 1, Paraview2Noodles
 In this example, AMR data is processed in Paraview, written as .ply files for each frame and processed into Noodles.
 The rigatoni server file and paraview python script is in the Paraview2Noodles folder and utilizes the Threading strainer to port the data into Noodles. Frame rate is faster than displayed here. Complex animations result in slower FPS, but at about the same rate as Paraview.
 ![Video 2-4-24 at 1 02 PM](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81af-4a45-9078-10cfceb47045)
+
 ### Example 2, Source Strainer
 In this example, we use "VtkNoodlesSourceStrainer.py" to access the data primitives of a cylinder vtk source object.
 The output of SourceStrainer(source) is a list that contains four arrays, 0: Points 1. Polygon indices 2. Normals (if they exist) 3. Texture coordinates (if they exist). These data primtives are then used in patch creation. 
@@ -90,7 +91,7 @@ https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81
 ![Image 7-10-23 at 1 02 PM](https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/a3fc4612-42a3-401d-b088-8883b5304486)
 
 
-### Example 2, VTP file Strainer
+### Example 3, VTP file Strainer
 In this example, medical data of two patients (one dataset of a thoracic aorta, and another of the abdominal aorta including some parts of the iliacs) was combined, visualized and stored as a .vtp file, found here: https://simtk.org/frs/?group_id=31. VTPnoodStrainer returns the points and polygons of this data. Further work to access color and process larger vtp files is ongoing.
 
 ```python

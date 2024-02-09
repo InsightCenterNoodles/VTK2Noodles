@@ -6,7 +6,7 @@ This is a filter set is desgined to integrate the Visualization Tool Kit (VTK) a
 In this example, AMR data is processed in Paraview, written as .ply files for each frame and processed into Noodles.
 The rigatoni server file and paraview python script is in the Paraview2Noodles folder and utilizes the Threading strainer to port the data into Noodles. Complex animations result in slower FPS, but at about the same rate as Paraview.
 #### Frame rate is a faster than displayed here
-https://github.com/InsightCenterNoodles/VTK2Noodles/blob/main/magvortcontourgitclip.mov
+    https://github.com/InsightCenterNoodles/VTK2Noodles/blob/main/magvortcontourgitclip.mov
 
 ### Example 2, VTP file Strainer
 In this example, medical data of two patients (one dataset of a thoracic aorta, and another of the abdominal aorta including some parts of the iliacs) was combined, visualized and stored as a .vtp file, found here: https://simtk.org/frs/?group_id=31. VTPnoodStrainer returns the points and polygons of this data. Further work to access color and process larger vtp files is ongoing.
@@ -113,8 +113,6 @@ def create_cylinder(server: rigatoni.Server, context, *args):
 
     # Create Patch
     patches = []
-
-https://github.com/InsightCenterNoodles/VTK2Noodles/assets/135997381/25611520-81af-4a45-9078-10cfceb47045
 
 
     patch_info = geo.GeometryPatchInput(
